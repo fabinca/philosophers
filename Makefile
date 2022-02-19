@@ -6,12 +6,14 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 14:57:03 by cfabian           #+#    #+#              #
-#    Updated: 2022/02/17 15:49:19 by cfabian          ###   ########.fr        #
+#    Updated: 2022/02/19 11:04:13 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_DIR = src
 SRC	= 	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/free.c \
+		$(SRC_DIR)/ft_atoi.c
 		
 OBJ_DIR = obj
 OBJ	= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -29,7 +31,7 @@ $(OBJ_DIR):
 	
 $(NAME)	: $(OBJ)
 #	@$(CC) -g -o $(NAME) $(OBJ) $(MLX) $(LIB) -lXext -lX11
-	$(CC) $(OBJ) -lpthreads -g -o $(NAME)
+	$(CC) $(OBJ) -lpthread -g -o $(NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)
