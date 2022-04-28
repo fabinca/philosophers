@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/28 15:40:14 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/28 15:55:23 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,32 @@ t_data	init_data(int argc, char **argv)
 	data.dead = 0;
 	pthread_mutex_init(&data.check_forks, NULL);
 	data.fork_semaphores = (bool *)malloc(data.nb_of_philos * sizeof(bool));
-	memset(data.fork_semaphores, 0, data.nb_of_philos * sizeof(bool));
+	memset(data.fork_semaphores, 1, data.nb_of_philos * sizeof(bool));
 	return (data);
+}
+
+t_philo	*init_philos(int philo_nb)
+{
+	t_philo	*philos;
+	int		i;
+
+	philos = (t_philo *)malloc(philo_nb * sizeof(t_philo));
+	i = 0;
+	while (i < philo_nb)
+	{
+		philos[i].number = i;
+		philos[i].nb_meals = 0;
+		philos[i].last_food = get_timestamp();
+		i++;
+	}
+	return (philos);
 }
 
 int	main(int argc, char **argv)
 {
 	int16_t		i;
 	t_data		data;
+	t_philo		*philos;
 	pthread_t	*tid;
 
 	if (argc < 5 || argc > 6)
@@ -44,7 +62,6 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	data = init_data(argc, argv);
-	//parse input
-	//init fork_semaphore and mutex
-	//init philos - 1 thinks usleep1 2-2 ...
+	philos = init_philos(data.nb_of_philos)
 }
+
