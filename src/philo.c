@@ -6,23 +6,29 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/28 15:23:57 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/28 17:43:11 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//philothread: 
-//think(philonumber)
-//last time eat
-//check time to die
-//while (now - last_food < time_to_die && end == 0)
-	//mutex_lock
-// if fork_left & fork right == 1
-	//fork_left & fork_right = 0
-	//philo_can_eat = 1
-	//mutex unlock
-	if philo_can_eat
-		// philo eats
-		// fork left & fork right = 0
-		if (now - last_food < time_to_die)
-		// philo sleeps 
-		//philo thinks
+#include "../philo.h"
+
+void	*philo_thread(void *ptr)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)ptr;
+	philo->last_food = get_timestamp();
+	if (philo->number != 0)
+		think(philo);
+	usleep(philo->number);
+	while (!dead(philo, get_timestamp()))
+	{
+		if (can_take_forks(philo))
+		{
+			eat(philo);
+			philo_sleep(philo);
+			think(philo);
+		}
+	}
+	return (NULL);
+}
