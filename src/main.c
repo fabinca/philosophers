@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 15:52:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/02/19 12:39:08 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/02/27 17:29:22 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,51 @@ void	*philo_thread(void *data_v)
 {
 	t_data	*data;
 	t_philo	philo;
-	int		timestamp;
 
 	data = (t_data *)data_v;
 	philo = data->philos[data->number];
+	philo.last_food = get_timestamp();
 	while (data->dead == 0)
 	{
-		if (philo.left->status != 1 && philo.right->status != 1)
+		printf("%d \n", philo.status);
+		if (philo.left && philo.right)
 		{
+			printf("test8\n");
 			philo.status = 1;
+			printf("test9\n");
 			pthread_mutex_lock(philo.fork);
-			printf("%d took a fork.\n", philo.number + 1);
+			printf("test10\n");
+			if (data->dead == 1)
+				break ;
+			printf("test11\n");
+			printf("%ld: %d took a fork.\n", get_timestamp(), philo.number + 1);
 			pthread_mutex_lock(philo.left->fork);
-			printf("%d took a fork.\n", philo.number + 1);
-			printf("%d is eating.\n", philo.number + 1);
+			if (data->dead == 1)
+				break ;
+			printf("%ld: %d took a fork.\n", get_timestamp(), philo.number + 1);
+			if (data->dead == 1)
+				break ;
+			philo.last_food = get_timestamp();
+			printf("%ld: %d is eating.\n", philo.last_food, philo.number + 1);
 			usleep(data->time_to_eat * 1000);
 			philo.status = 2;
 			pthread_mutex_unlock(philo.fork);
 			pthread_mutex_unlock(philo.left->fork);
-			printf("%d is sleeping.\n", philo.number + 1);
+			if (data->dead == 1)
+				break ;
+			printf("%ld: %d is sleeping.\n", get_timestamp(), philo.number + 1);
 			usleep(data->time_to_sleep * 1000);
-			printf("%d is thinking.\n", philo.number + 1);
+			if (data->dead == 1)
+				break ;
+			printf("%ld: %d is thinking.\n", get_timestamp(), philo.number + 1);
 		}
-		if (philo.last_food - timestamp > data->time_to_die)
+		if (get_timestamp() - philo.last_food > data->time_to_die)
+		{
 			data->dead = 1;
+			philo.status = 0;
+		}
 	}
-	if (philo.last_food - timestamp > data->time_to_die)
+	if (philo.status == 0)
 		printf("%d has died.\n", philo.number + 1);
 	return (NULL);
 }
@@ -49,7 +68,7 @@ void	*philo_thread(void *data_v)
 t_philo	*init_philos(int nb, pthread_mutex_t *forks)
 {
 	t_philo	*philos;
-	int		i;
+	int16_t	i;
 
 	i = 0;
 	philos = (t_philo *)malloc(sizeof(t_philo) * nb);
@@ -92,7 +111,7 @@ t_data	init_data(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	int			i;
+	int16_t		i;
 	t_data		data;
 	pthread_t	*tid;
 

@@ -6,12 +6,13 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 14:57:03 by cfabian           #+#    #+#              #
-#    Updated: 2022/02/19 11:04:13 by cfabian          ###   ########.fr        #
+#    Updated: 2022/02/19 13:21:05 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_DIR = src
 SRC	= 	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/time.c \
 		$(SRC_DIR)/free.c \
 		$(SRC_DIR)/ft_atoi.c
 		
