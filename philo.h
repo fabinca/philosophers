@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/28 15:48:11 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/28 17:01:59 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,34 @@
 # include <stdint.h>
 # include <stdbool.h>
 
-typedef struct s_philo
-{
-	int				number;
-	int64_t			last_food;
-	int				nb_meals;
-}					t_philo;
-
 typedef struct s_data
 {
-	int				nb_of_philos;
+	int				nb_p;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nb_meals; //-10 if unspecified
 	bool			dead;
-	pthread_mutex_t	check_forks;
+	pthread_mutex_t	check_mutex;
 	bool			*fork_semaphores;
+	pthread_mutex_t	*f_mutex;
 }					t_data;
+
+typedef struct s_philo
+{
+	int				number;
+	int64_t			last_food;
+	int				nb_meals;
+	t_data			*data_ptr;
+}					t_philo;
 
 int		ft_atoi(const char *str);
 int64_t	get_timestamp(void);
+void	*philo_thread(void *ptr);
+void	think(t_philo philo);
+void	eat(t_philo philo);
+void	sleep(t_philo philo);
+bool	dead(t_philo philo, int64_t now);
 void	free_all(pthread_t *tid, t_data ptr);
 
 #endif
