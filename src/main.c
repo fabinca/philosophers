@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 14:22:26 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 15:03:57 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ t_data	init_data(int argc, char **argv)
 	else
 		d.nb_meals = ft_atoi(argv[5]);
 	d.dead = 0;
+	d.philos_finished_nbm = 0;
+	pthread_mutex_init(&d.incr_philos_finished, NULL);
+	pthread_mutex_init(&d.check_dead, NULL);
 	pthread_mutex_init(&d.check_mutex, NULL);
 	d.fork_semaphores = (bool *)malloc(d.nb_p * sizeof(bool));
 	memset(d.fork_semaphores, 1, d.nb_p * sizeof(bool));
 	d.f_mutex = (pthread_mutex_t *)malloc(d.nb_p * sizeof(pthread_mutex_t));
 	i = 0;
-	while (i < d.nb_p)
-	{
+	while (i++ < d.nb_p)
 		pthread_mutex_init(&d.f_mutex[i], NULL);
-		i++;
-	}
 	return (d);
 }
 
@@ -71,13 +71,13 @@ int	invalid_input(int argc, char **argv)
 		return (1);
 	}
 	arg = 1;
-	while (arg++ < argc)
+	while (arg++ < argc - 1)
 	{
 		if (!ft_str_is_numeric(argv[arg]))
 		{
 			printf("Usage: ./philo number_of_philosophers time_to_die time_to_eat \
-			time_to_sleep [number_of_times_each_philosopher_must_eat]\n \
-			All values should be numeric!\n");
+			time_to_sleep [number_of_times_each_philosopher_must_eat]\
+			\n%s is not numeric.\n", argv[arg]);
 			return (1);
 		}
 	}
@@ -108,7 +108,6 @@ int	main(int argc, char **argv)
 		pthread_join(tid[i], NULL);
 		i++;
 	}
-	
-	//free
+	free_all(tid, data, philos);
+	return (0);
 }
-

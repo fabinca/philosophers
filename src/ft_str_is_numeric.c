@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 09:11:54 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 14:18:40 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 14:29:34 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_str_is_numeric(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] < '0' | str[i] > '9')
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
 	}
