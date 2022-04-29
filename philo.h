@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/28 17:42:35 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 14:19:15 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philo
 }					t_philo;
 
 int		ft_atoi(const char *str);
+int		ft_str_is_numeric(char *str);
 int64_t	get_timestamp(void);
 void	*philo_thread(void *ptr);
 bool	can_take_forks(t_philo *philo);

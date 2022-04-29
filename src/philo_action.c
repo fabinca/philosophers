@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/28 17:51:35 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/28 18:59:41 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	eat(t_philo *philo)
 	int64_t	now;
 
 	now = get_timestamp();
-	printf("%li philosopher %i is eating.\n", now, philo->number);
+	philo->nb_meals += 1;
+	printf("%li philosopher %i is eating. (nb %i)\n", now, philo->number, philo->nb_meals);
 	usleep(philo->data_ptr->time_to_sleep * 1000);
 	philo->last_food = now;
 	philo->data_ptr->fork_semaphores[philo->left] = 1;
@@ -89,8 +90,8 @@ bool	dead(t_philo *philo, int64_t now)
 		return (1);
 	if (now - philo->last_food < philo->data_ptr->time_to_die)
 		return (0);
-	printf("%li philosopher %i died.\n", now, philo->number);
 	philo->data_ptr->dead = 1;
+	printf("%li philosopher %i died.\n", now, philo->number);
 	return (1);
 }
 

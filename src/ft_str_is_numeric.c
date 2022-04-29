@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_str_is_numeric.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/28 18:03:49 by cfabian          ###   ########.fr       */
+/*   Created: 2021/04/19 09:11:54 by cfabian           #+#    #+#             */
+/*   Updated: 2022/04/29 14:18:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
-
-void	*philo_thread(void *ptr)
+int	ft_str_is_numeric(char *str)
 {
-	t_philo	*philo;
+	int	i;
 
-	philo = (t_philo *)ptr;
-	philo->last_food = get_timestamp();
-	if (philo->number != 0)
-		think(philo);
-	usleep(philo->number);
-	while (!dead(philo, get_timestamp()))
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i] != '\0')
 	{
-		if (can_take_forks(philo))
-		{
-			eat(philo);
-			philo_sleep(philo);
-			think(philo);
-		}
+		if (str[i] < '0' | str[i] > '9')
+			return (0);
+		i++;
 	}
-	return (NULL);
+	return (1);
 }

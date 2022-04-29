@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/28 17:46:17 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 14:22:26 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,30 @@ t_philo	*init_philos(t_data *data)
 	return (philos);
 }
 
+int	invalid_input(int argc, char **argv)
+{
+	int	arg;
+
+	if (argc < 5 || argc > 6)
+	{
+		printf("Usage: ./philo number_of_philosophers time_to_die time_to_eat \
+		time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+		return (1);
+	}
+	arg = 1;
+	while (arg++ < argc)
+	{
+		if (!ft_str_is_numeric(argv[arg]))
+		{
+			printf("Usage: ./philo number_of_philosophers time_to_die time_to_eat \
+			time_to_sleep [number_of_times_each_philosopher_must_eat]\n \
+			All values should be numeric!\n");
+			return (1);
+		}
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	int16_t		i;
@@ -67,12 +91,8 @@ int	main(int argc, char **argv)
 	t_philo		*philos;
 	pthread_t	*tid;
 
-	if (argc < 5 || argc > 6)
-	{
-		printf("Usage: ./philo number_of_philosophers time_to_die time_to_eat \
-		time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+	if (invalid_input(argc, argv))
 		return (0);
-	}
 	data = init_data(argc, argv);
 	tid = (pthread_t *)malloc(sizeof(pthread_t) * data.nb_p);
 	philos = init_philos(&data);
@@ -88,6 +108,7 @@ int	main(int argc, char **argv)
 		pthread_join(tid[i], NULL);
 		i++;
 	}
+	
 	//free
 }
 
