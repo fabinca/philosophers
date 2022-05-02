@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 15:02:02 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 16:28:52 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ void	*philo_thread(void *ptr)
 
 	philo = (t_philo *)ptr;
 	philo->last_food = get_timestamp();
-	if (philo->number != 0)
-		think(philo);
-	usleep(philo->number);
 	while (!dead(philo, get_timestamp()))
 	{
 		if (philo->data_ptr->nb_p == philo->data_ptr->philos_finished_nbm)

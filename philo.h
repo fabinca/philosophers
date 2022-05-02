@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 15:12:24 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 15:17:41 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void	think(t_philo *philo);
 void	eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 bool	dead(t_philo *philo, int64_t now);
-void	free_all(pthread_t *tid, t_data data, t_philo *philos)
+void	free_all(pthread_t *tid, t_data data, t_philo *philos);
 
 #endif

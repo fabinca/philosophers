@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 15:03:57 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 16:23:42 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_data	init_data(int argc, char **argv)
 {
 	t_data	d;
-	int		i;
 
 	d.nb_p = ft_atoi(argv[1]);
 	d.time_to_die = ft_atoi(argv[2]);
@@ -33,9 +32,6 @@ t_data	init_data(int argc, char **argv)
 	d.fork_semaphores = (bool *)malloc(d.nb_p * sizeof(bool));
 	memset(d.fork_semaphores, 1, d.nb_p * sizeof(bool));
 	d.f_mutex = (pthread_mutex_t *)malloc(d.nb_p * sizeof(pthread_mutex_t));
-	i = 0;
-	while (i++ < d.nb_p)
-		pthread_mutex_init(&d.f_mutex[i], NULL);
 	return (d);
 }
 
@@ -48,6 +44,7 @@ t_philo	*init_philos(t_data *data)
 	i = 0;
 	while (i < data->nb_p)
 	{
+		pthread_mutex_init(&(data->f_mutex[i]), NULL);
 		philos[i].number = i;
 		if (i > 0)
 			philos[i].left = i - 1;
