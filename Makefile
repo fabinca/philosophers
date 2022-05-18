@@ -6,12 +6,13 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 14:57:03 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/18 16:14:08 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/18 18:21:03 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_DIR = src
 SRC	= 	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/forks.c \
 		$(SRC_DIR)/free.c \
 		$(SRC_DIR)/time.c \
 		$(SRC_DIR)/philo.c \
@@ -34,7 +35,6 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	
 $(NAME)	: $(OBJ)
-#	$(CC) $(OBJ) -lpthread -fsanitize=thread -g -o $(NAME)
 	$(CC) $(OBJ) -lpthread -g -o $(NAME)
 
 clean:
@@ -45,15 +45,9 @@ fclean: clean
 
 re: fclean all
 
-test1: re
-	./philo 10 420 200 200 5
-
-test2: re
-	./philo 11 630 200 200 5
-
 threadcheck	: $(OBJ)
 	$(CC) $(OBJ) -lpthread -fsanitize=thread -g -o $(NAME)
-	./philo 4 410 200 200 3
+	./philo 4 600 200 200 3
 
 memcheck: all
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./philo
@@ -62,4 +56,4 @@ memcheck: all
 norm:
 	norminette $(SRC) $(INCL)
 
-.PHONY: all memcheck test bonus clean fclean re norm
+.PHONY: all memcheck clean fclean re norm threadcheck

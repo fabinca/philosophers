@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 17:59:30 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 18:26:04 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,16 @@
 
 static bool	get_forks(t_philo *philo)
 {
-	int	neighbour;
-
 	if (philo->hand_fork[0] == 0)
 		take_left_fork(philo);
 	if (philo->hand_fork[1] == 0)
 		take_right_fork(philo);
 	if (philo->hand_fork[0] == 1 && philo->hand_fork[1] == 1)
 		return (true);
-	if (ft_gettimestamp() - philo->last_food > philo->data_ptr->time_to_die - 50)
+	if (ft_gettimestamp() - philo->last_food > \
+	philo->data_ptr->time_to_die - 50)
 		return (false);
-	neighbour = philo->number + 1;
-	if (neighbour >= philo->data_ptr->nb_p)
-		neighbour = 0;
-	if (philo->hand_fork[1] == 1 && philo->data_ptr->fork_state[neighbour] == 1)
-	{
-		put_down_right_fork(philo);
-		usleep(100);
-		return (false);
-	}
-	neighbour = philo->number - 1;
-	if (neighbour < 0)
-		neighbour = philo->data_ptr->nb_p - 1;
-	if (philo->hand_fork[0] == 1 && philo->data_ptr->fork_state[neighbour] == 1)
-		put_down_left_fork(philo);
-	usleep(100);
+	put_down_needed_forks(philo);
 	return (false);
 }
 
