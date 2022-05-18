@@ -6,39 +6,28 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 16:28:52 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 16:50:08 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-bool	can_take_forks(t_philo *philo)
+static bool	get_forks(t_philo *philo)
 {
-	bool	take_forks;
-
-	take_forks = 0;
-	pthread_mutex_lock(&philo->data_ptr->check_mutex);
-	if (philo->data_ptr->fork_semaphores[philo->left] == 1 && \
-	philo->data_ptr->fork_semaphores[philo->number] == 1)
-	{
-		take_forks = 1;
-		philo->data_ptr->fork_semaphores[philo->left] = 0;
-		philo->data_ptr->fork_semaphores[philo->number] = 0;
-	}
-	pthread_mutex_unlock(&philo->data_ptr->check_mutex);
-	if (take_forks == 0)
-		return (0);
-	if (philo->number < philo->left)
-	{
-		take_fork(philo, philo->number);
-		take_fork(philo, philo->left);
-	}
-	else
-	{
-		take_fork(philo, philo->left);
-		take_fork(philo, philo->number);
-	}
-	return (1);
+	if (philo->hand_fork[0] == 0)
+		take_left_fork(philo);
+	if (philo->hand_fork[1] == 0)
+		take_right_fork(philo);
+	if (philo->hand_fork[0] == 1 && philo->hand_fork[1] == 1)
+		return (true);
+	//if (ft_gettimestamp() - philo->last_food > philo->data_ptr->time_to_die - 100)
+	//	return (false);
+	//if (philo->hand_fork[1] == 1)
+	//	put_down_right_fork(philo);
+	//else if (philo->hand_fork[0] == 1)
+	//	put_down_left_fork(philo);
+	//usleep(100);
+	return (false);
 }
 
 void	*philo_thread(void *ptr)
@@ -46,20 +35,23 @@ void	*philo_thread(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	philo->last_food = get_timestamp();
-	while (!dead(philo, get_timestamp()))
+	philo->last_food = ft_gettimestamp();
+	if (philo->data_ptr->nb_p % 2 == 0)
 	{
-		if (philo->data_ptr->nb_p == philo->data_ptr->philos_finished_nbm)
-			break ;
-		if (can_take_forks(philo))
+		if (philo->number % 2 == 1)
+			usleep(philo->data_ptr->time_to_eat * 1000 / 4);
+	}
+	else if (philo->number % 3 == 1)
+		usleep(philo->data_ptr->time_to_eat * 1000 / 4);
+	else if (philo->number % 3 == 2)
+		usleep(philo->data_ptr->time_to_eat * 1000 / 8);
+	while (!philo->data_ptr->term)
+	{
+		if (get_forks(philo))
 		{
 			eat(philo);
-			if (philo->data_ptr->nb_p == philo->data_ptr->philos_finished_nbm)
-				break ;
 			philo_sleep(philo);
-			if (philo->data_ptr->nb_p == philo->data_ptr->philos_finished_nbm)
-				break ;
-			think(philo);
+			think(philo, 1);
 		}
 	}
 	return (NULL);

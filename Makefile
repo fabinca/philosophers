@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 14:57:03 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/02 09:58:07 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/18 16:14:08 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,12 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+test1: re
+	./philo 10 420 200 200 5
+
+test2: re
+	./philo 11 630 200 200 5
 
 threadcheck	: $(OBJ)
 	$(CC) $(OBJ) -lpthread -fsanitize=thread -g -o $(NAME)

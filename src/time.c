@@ -6,13 +6,13 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:27:39 by cfabian           #+#    #+#             */
-/*   Updated: 2022/02/19 13:28:36 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 15:57:39 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int64_t	get_timestamp(void)
+int64_t	ft_gettimestamp(void)
 {
 	struct timeval	tv;
 	int64_t			now;

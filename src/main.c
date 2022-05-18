@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 16:23:42 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/02 15:35:14 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ t_data	init_data(int argc, char **argv)
 		d.nb_meals = -10;
 	else
 		d.nb_meals = ft_atoi(argv[5]);
-	d.dead = 0;
+	d.term = 0;
 	d.philos_finished_nbm = 0;
 	pthread_mutex_init(&d.incr_philos_finished, NULL);
-	pthread_mutex_init(&d.check_dead, NULL);
-	pthread_mutex_init(&d.check_mutex, NULL);
-	d.fork_semaphores = (bool *)malloc(d.nb_p * sizeof(bool));
-	memset(d.fork_semaphores, 1, d.nb_p * sizeof(bool));
+	pthread_mutex_init(&d.check_term, NULL);
+	//pthread_mutex_init(&d.check_mutex, NULL);
+	d.fork_state = (bool *)malloc(d.nb_p * sizeof(bool));
+	memset(d.fork_state, 1, d.nb_p * sizeof(bool));
 	d.f_mutex = (pthread_mutex_t *)malloc(d.nb_p * sizeof(pthread_mutex_t));
 	return (d);
 }
@@ -52,6 +52,8 @@ t_philo	*init_philos(t_data *data)
 			philos[i].left = data->nb_p - 1;
 		philos[i].nb_meals = 0;
 		philos[i].data_ptr = data;
+		philos[i].hand_fork[0] = 0;
+		philos[i].hand_fork[1] = 0;
 		i++;
 	}
 	return (philos);
