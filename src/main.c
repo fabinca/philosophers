@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 18:29:14 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 20:38:32 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ int	invalid_input(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 	{
-		printf("Usage: ./philo number_of_philosophers time_to_die time_to_eat");
-		printf(" time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+		printf("%sUsage: ./philo number_of_philosophers time_to_die ", RED);
+		printf("time_to_eat time_to_sleep ");
+		printf("[number_of_times_each_philosopher_must_eat]%s\n", DEF);
 		return (1);
 	}
 	arg = 1;
@@ -71,7 +72,7 @@ int	invalid_input(int argc, char **argv)
 	{
 		if (!ft_str_is_numeric(argv[arg]))
 		{
-			printf("%s is not numeric.\n", argv[arg]);
+			printf("%s%s: Natural numbers required.%s\n", RED, argv[arg], DEF);
 			return (1);
 		}
 	}

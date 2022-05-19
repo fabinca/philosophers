@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 10:49:06 by cfabian           #+#    #+#             */
-/*   Updated: 2022/02/19 10:08:22 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 20:44:17 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ static int	ft_isspace(int c)
 	return (0);
 }
 
+static bool	num_out_of_range(int s, unsigned long int num, char c)
+{
+	if (s == -1 && num == INT_MAX / 10 && (c - '1') > INT_MAX % 10)
+		return (true);
+	if (s == 1 && num == INT_MAX / 10 && (c - '0') > INT_MAX % 10)
+		return (true);
+	if (num > INT_MAX / 10)
+		return (true);
+	return (false);
+}
+
 int	ft_atoi(const char *str)
 {
 	unsigned int		i;
@@ -43,10 +54,12 @@ int	ft_atoi(const char *str)
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if ((s == -1 && num == INT_MAX / 10 && (str[i] - '1') > INT_MAX % 10)
-			|| (s == 1 && num == INT_MAX / 10 && (str[i] - '0') > INT_MAX % 10)
-			|| (num > INT_MAX / 10))
+		if (num_out_of_range(s, num, str[i]))
+		{
+			printf("%s%s: Input number to big, defaults to 0%s\n", \
+			RED, str, DEF);
 			return (0);
+		}
 		num = num * 10 + (str[i] - '0');
 		i++;
 	}

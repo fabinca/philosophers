@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 14:57:03 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/18 18:21:03 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/19 10:46:10 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,14 +28,14 @@ NAME = philo
 
 all	: $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -g -c $< -o $@
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	
-$(NAME)	: $(OBJ)
-	$(CC) $(OBJ) -lpthread -g -o $(NAME)
+$(NAME)	: $(OBJ) 
+	$(CC) $(CFLAGS) $(OBJ) -lpthread -g -o $(NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -45,9 +45,9 @@ fclean: clean
 
 re: fclean all
 
-threadcheck	: $(OBJ)
-	$(CC) $(OBJ) -lpthread -fsanitize=thread -g -o $(NAME)
-	./philo 4 600 200 200 3
+threadcheck	: 
+	$(CC) $(SRC) $(CFLAGS) -fsanitize=thread -lpthread  -g -o threadcheck
+	./threadcheck 4 410 200 200
 
 memcheck: all
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./philo

@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 18:29:55 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 19:46:18 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <sys/time.h>
 # include <stdint.h>
 # include <stdbool.h>
+
+# define RED "\033[0;31m"
+# define DEF "\033[0m"
 
 typedef struct s_data
 {
