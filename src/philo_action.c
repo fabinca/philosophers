@@ -19,7 +19,7 @@ void	print_message(int num, char *message)
 
 void	think(t_philo *philo, int64_t time)
 {
-	if (philo->data_ptr->term > 0)
+	if (term(philo))
 		return ;
 	print_message(philo->number, "is thinking");
 	usleep(time);
@@ -29,7 +29,7 @@ void	eat(t_philo *philo)
 {
 	int64_t	now;
 
-	if (philo->data_ptr->term > 0)
+	if (term(philo))
 		return ;
 	print_message(philo->number, "is eating");
 	philo->nb_meals += 1;
@@ -50,7 +50,7 @@ void	philo_sleep(t_philo *philo)
 {
 	int64_t	now;
 
-	if (philo->data_ptr->term > 0)
+	if (term(philo))
 		return ;
 	print_message(philo->number, "is sleeping");
 	now = ft_gettimestamp();
@@ -66,11 +66,18 @@ bool	term(t_philo *philo)
 {
 	int64_t	now;
 
+	pthread_mutex_lock(&philo->data_ptr->check_term);
 	if (philo->data_ptr->term > 0)
+	{
+		pthread_mutex_unlock(&philo->data_ptr->check_term);
 		return (1);
 	now = ft_gettimestamp();
 	if (now - philo->last_food < philo->data_ptr->time_to_die)
+	{
+		pthread_mutex_unlock(&philo->data_ptr->check_term);
 		return (0);
+	}
+	pthread_mutex_unlock(&philo->data_ptr->check_term);
 	print_message(philo->number, "died");
 	philo->data_ptr->term += 1;
 	return (1);
