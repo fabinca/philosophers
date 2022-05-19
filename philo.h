@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/19 11:28:19 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/19 12:45:48 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
 	int				philos_finished_nbm;
 	bool			*fork_state;
 	pthread_mutex_t	check_term;
+	pthread_mutex_t	enough_meals;
 	pthread_mutex_t	*f_mutex;
 }					t_data;
 
@@ -59,9 +60,9 @@ bool	ft_str_is_numeric(char *str);
 int64_t	ft_gettimestamp(void);
 
 //forks
+bool	check_fork(t_philo *philo, int fork);
 void	put_down_needed_forks(t_philo *philo);
-void	put_down_right_fork(t_philo *philo);
-void	put_down_left_fork(t_philo *philo);
+void	put_down_fork(t_philo *philo, bool side);
 void	take_left_fork(t_philo *philo);
 void	take_right_fork(t_philo *philo);
 
