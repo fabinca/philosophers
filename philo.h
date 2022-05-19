@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 16:37:20 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 18:29:55 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ typedef struct s_data
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				nb_meals; //-10 if unspecified
+	int				nb_meals;
 	bool			term;
-	pthread_mutex_t	incr_philos_finished;
-	pthread_mutex_t	check_term;
 	int				philos_finished_nbm;
 	bool			*fork_state;
 	pthread_mutex_t	*f_mutex;
@@ -50,16 +48,21 @@ typedef struct s_philo
 
 //free
 void	free_all(pthread_t *tid, t_data data, t_philo *philos);
+
 //utils
 int		ft_atoi(const char *str);
 bool	ft_str_is_numeric(char *str);
 int64_t	ft_gettimestamp(void);
-//main
-//philo_action
+
+//forks
+void	put_down_needed_forks(t_philo *philo);
 void	put_down_right_fork(t_philo *philo);
 void	put_down_left_fork(t_philo *philo);
 void	take_left_fork(t_philo *philo);
 void	take_right_fork(t_philo *philo);
+
+//philo_action
+void	print_message(int num, char *message);
 void	think(t_philo *philo, int64_t time);
 void	eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
