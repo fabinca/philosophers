@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 18:23:10 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/19 11:28:47 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ bool	term(t_philo *philo)
 	{
 		pthread_mutex_unlock(&philo->data_ptr->check_term);
 		return (1);
+	}
 	now = ft_gettimestamp();
 	if (now - philo->last_food < philo->data_ptr->time_to_die)
 	{

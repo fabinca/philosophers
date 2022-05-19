@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 19:46:18 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/19 11:28:19 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_data
 	bool			term;
 	int				philos_finished_nbm;
 	bool			*fork_state;
+	pthread_mutex_t	check_term;
 	pthread_mutex_t	*f_mutex;
 }					t_data;
 
