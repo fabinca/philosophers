@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 18:11:22 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/19 11:03:53 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	take_right_fork(t_philo *philo)
 
 void	think(t_philo *philo, int64_t time)
 {
-	if (philo->data_ptr->term > 0)
+	if (term(philo))
 		return ;
 	print_message(philo->number, "is thinking");
 	//printf("%li philosopher %i is thinking.\n", ft_gettimestamp(), philo->number + 1);
@@ -84,7 +84,7 @@ void	eat(t_philo *philo)
 {
 	int64_t	now;
 
-	if (philo->data_ptr->term > 0)
+	if (term(philo))
 		return ;
 	print_message(philo->number, "is eating");
 	//printf("%li philosopher %i is eating. (%i)\n", ft_gettimestamp(), philo->number + 1, philo->nb_meals);
@@ -112,7 +112,7 @@ void	philo_sleep(t_philo *philo)
 {
 	int64_t	now;
 
-	if (philo->data_ptr->term > 0)
+	if (term(philo))
 		return ;
 	print_message(philo->number, "is sleeping");
 	//printf("%li philosopher %i is sleeping.\n", ft_gettimestamp(), philo->number + 1);
@@ -129,19 +129,19 @@ bool	term(t_philo *philo)
 {
 	int64_t	now;
 
-	//pthread_mutex_lock(&philo->data_ptr->check_term);
+	pthread_mutex_lock(&philo->data_ptr->check_term);
 	if (philo->data_ptr->term > 0)
 	{
-		//pthread_mutex_unlock(&philo->data_ptr->check_term);
+		pthread_mutex_unlock(&philo->data_ptr->check_term);
 		return (1);
 	}
 	now = ft_gettimestamp();
 	if (now - philo->last_food < philo->data_ptr->time_to_die)
 	{
-		//pthread_mutex_unlock(&philo->data_ptr->check_term);
+		pthread_mutex_unlock(&philo->data_ptr->check_term);
 		return (0);
 	}
-	//pthread_mutex_unlock(&philo->data_ptr->check_term);
+	pthread_mutex_unlock(&philo->data_ptr->check_term);
 	print_message(philo->number, "died");
 	//printf("%li philosopher %i died.\n", ft_gettimestamp(), philo->number + 1);
 	philo->data_ptr->term += 1;
