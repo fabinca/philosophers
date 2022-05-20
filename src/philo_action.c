@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   philo_action.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/19 11:57:38 by cfabian          ###   ########.fr       */
+/*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             *//*   Updated: 2022/05/20 11:38:43 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	print_message(int num, char *message)
+void	print_message(t_philo *philo, char *message)
 {
-	printf("%li philosopher %i %s.\n", ft_gettimestamp(), num + 1, message);
+	printf("%lli philosopher %i %s.\n", ft_gettimestamp(philo->data_ptr->start), philo->number + 1, message);
 }
 
 void	think(t_philo *philo, int64_t time)
 {
 	if (term(philo))
 		return ;
-	print_message(philo->number, "is thinking");
+	print_message(philo, "is thinking");
 	usleep(time);
 }
 
@@ -31,9 +30,9 @@ void	eat(t_philo *philo)
 
 	if (term(philo))
 		return ;
-	print_message(philo->number, "is eating");
+	print_message(philo, "is eating");
 	philo->nb_meals += 1;
-	now = ft_gettimestamp();
+	now = ft_gettimestamp(philo->data_ptr->start);
 	if (philo->nb_meals == philo->data_ptr->nb_meals)
 	{
 		pthread_mutex_lock(&philo->data_ptr->enough_meals);
@@ -48,7 +47,7 @@ void	eat(t_philo *philo)
 		else
 			pthread_mutex_unlock(&philo->data_ptr->enough_meals);
 	}
-	usleep(philo->data_ptr->time_to_sleep * 1000 -(ft_gettimestamp() - now));
+	usleep(philo->data_ptr->time_to_sleep * 1000 -(ft_gettimestamp(philo->data_ptr->start) - now));
 	philo->last_food = now;
 	put_down_fork(philo, 0);
 	put_down_fork(philo, 1);
@@ -60,8 +59,8 @@ void	philo_sleep(t_philo *philo)
 
 	if (term(philo))
 		return ;
-	print_message(philo->number, "is sleeping");
-	now = ft_gettimestamp();
+	print_message(philo, "is sleeping");
+	now = ft_gettimestamp(philo->data_ptr->start);
 	if (now - philo->last_food + philo->data_ptr->time_to_sleep * 1000 < \
 		philo->data_ptr->time_to_die * 1000)
 		usleep(philo->data_ptr->time_to_sleep * 1000);
@@ -80,14 +79,14 @@ bool	term(t_philo *philo)
 		pthread_mutex_unlock(&philo->data_ptr->check_term);
 		return (1);
 	}
-	now = ft_gettimestamp();
+	now = ft_gettimestamp(philo->data_ptr->start);
 	if (now - philo->last_food < philo->data_ptr->time_to_die)
 	{
 		pthread_mutex_unlock(&philo->data_ptr->check_term);
 		return (0);
 	}
 	philo->data_ptr->term += 1;
+	print_message(philo, "is sleeping");
 	pthread_mutex_unlock(&philo->data_ptr->check_term);
-	print_message(philo->number, "died");
 	return (1);
 }
