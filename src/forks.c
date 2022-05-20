@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:16:03 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/19 12:46:39 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/20 09:27:12 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ bool	check_fork(t_philo *philo, int fork)
 	return (fork_state);
 }
 
-void put_down_needed_forks(t_philo *philo)
+void	put_down_needed_forks(t_philo *philo)
 {
-	int neighbour;
+	int	neighbour;
 
 	neighbour = philo->number + 1;
 	if (philo->hand_fork[1] == 1 && check_fork(philo, neighbour) == 1)
@@ -90,7 +90,7 @@ void put_down_needed_forks(t_philo *philo)
 		put_down_fork(philo, 1);
 		print_message(philo->number, "has put down right fork");
 		usleep(200);
-		return;
+		return ;
 	}
 	neighbour = philo->number - 1;
 	if (philo->hand_fork[0] == 1 && check_fork(philo, neighbour) == 1)
