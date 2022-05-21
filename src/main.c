@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/20 13:48:04 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 12:52:37 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	main(int argc, char **argv)
 	data = init_data(argc, argv);
 	tid = (pthread_t *)malloc(sizeof(pthread_t) * data.nb_p);
 	philos = init_philos(&data);
+	data.start = ft_gettimestamp(0);
 	i = 0;
 	while (i < data.nb_p)
 	{
@@ -100,7 +101,6 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	i = 0;
-	data.start = ft_gettimestamp(0);
 	while (i < data.nb_p)
 	{
 		pthread_join(tid[i], NULL);
