@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/20 13:53:27 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 13:17:49 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,19 @@
 
 static bool	get_forks(t_philo *philo)
 {
-	if (philo->number != 0)
+	if (philo->number % 2 != 0)
 	{
-		take_left_fork(philo);
-		take_right_fork(philo);
+		if (take_left_fork(philo))
+			take_right_fork(philo);
 	}
 	else
 	{
-		take_right_fork(philo);
-		take_left_fork(philo);
+		if (take_right_fork(philo))
+			take_left_fork(philo);
 	}	
 	if (philo->hand_fork[0] == 1 && philo->hand_fork[1] == 1)
 		return (true);
 	return (false);
-	// if (ft_gettimestamp() - philo->last_food > \
-	// philo->data_ptr->time_to_die - 50)
-	// 	return (false);
-	// put_down_needed_forks(philo);
-	// return (false);
 }
 
 void	*philo_thread(void *ptr)

@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_action.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             *//*   Updated: 2022/05/20 11:38:43 by cfabian          ###   ########.fr       */
+/*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             */
+/*   Updated: 2022/05/21 13:10:49 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -13,7 +14,8 @@
 
 void	print_message(t_philo *philo, char *message)
 {
-	printf("%lli philosopher %i %s.\n", ft_gettimestamp(philo->data_ptr->start), philo->number + 1, message);
+	printf("%li philosopher %i %s.\n", ft_gettimestamp(philo->data_ptr->start), \
+	philo->number + 1, message);
 }
 
 void	think(t_philo *philo, int64_t time)

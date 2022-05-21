@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:16:03 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/20 13:58:17 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 13:13:29 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	take_left_fork(t_philo *philo)
+bool	take_left_fork(t_philo *philo)
 {
-	if (philo->hand_fork[0] == 1 || term(philo))
-		return ;
-	// if (philo->hand_fork[1] == 0 && check_fork(philo, philo->number) == 0)
-	// 	return ;
+	if (philo->hand_fork[0] == 1)
+		return (1);
+	if (term(philo))
+		return (0);
 	pthread_mutex_lock(&philo->data_ptr->f_mutex[philo->left]);
 	if (philo->data_ptr->fork_state[philo->left] == 1)
 	{
@@ -25,19 +25,20 @@ void	take_left_fork(t_philo *philo)
 		pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->left]);
 		philo->hand_fork[0] = 1;
 		if (term(philo))
-			return ;
+			return (0);
 		print_message(philo, "has taken left fork");
+		return (1);
 	}
-	else
-		pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->left]);
+	pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->left]);
+	return (0);
 }
 
-void	take_right_fork(t_philo *philo)
+bool	take_right_fork(t_philo *philo)
 {
-	if (philo->hand_fork[1] == 1 || term(philo))
-		return ;
-	// if (philo->hand_fork[0] == 0 && check_fork(philo, philo->left) == 0)
-	// 	return ;
+	if (philo->hand_fork[1] == 1)
+		return (1);
+	if (term(philo))
+		return (0);
 	pthread_mutex_lock(&philo->data_ptr->f_mutex[philo->number]);
 	if (philo->data_ptr->fork_state[philo->number] == 1)
 	{
@@ -45,11 +46,12 @@ void	take_right_fork(t_philo *philo)
 		pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->number]);
 		philo->hand_fork[1] = 1;
 		if (term(philo))
-			return ;
+			return (0);
 		print_message(philo, "has taken right fork");
+		return (1);
 	}
-	else
-		pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->number]);
+	pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->number]);
+	return (0);
 }
 
 void	put_down_fork(t_philo *philo, bool side)

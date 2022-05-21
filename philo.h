@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/20 13:53:52 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 13:13:43 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int64_t	ft_gettimestamp(int64_t start);
 bool	check_fork(t_philo *philo, int fork);
 void	put_down_needed_forks(t_philo *philo);
 void	put_down_fork(t_philo *philo, bool side);
-void	take_left_fork(t_philo *philo);
-void	take_right_fork(t_philo *philo);
+bool	take_left_fork(t_philo *philo);
+bool	take_right_fork(t_philo *philo);
 
 //philo_action
 void	print_message(t_philo *philo, char *message);
