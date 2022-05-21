@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 14:57:03 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/22 00:45:31 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/22 00:59:47 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ re: fclean all
 
 threadcheck	: 
 	$(CC) $(SRC) $(CFLAGS) -fsanitize=thread -lpthread  -g -o threadcheck
-	./threadcheck 4 430 200 200 100
+	./threadcheck 4 430 200 200 1
 
 memcheck: all
 	valgrind ./philo

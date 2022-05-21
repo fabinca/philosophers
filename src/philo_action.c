@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 23:59:15 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/22 01:02:08 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ bool	eat(t_philo *philo)
 {
 	const int64_t	now = safe_print(philo, "is eating");
 
+	if (now == -1)
+		return (DEAD);
 	philo->nb_meals += 1;
 	if (philo->nb_meals == philo->data_ptr->nb_meals)
 	{
@@ -32,15 +34,14 @@ bool	eat(t_philo *philo)
 		{
 			pthread_mutex_unlock(&philo->data_ptr->enough_meals);
 			pthread_mutex_lock(&philo->data_ptr->check_term);
-			philo->data_ptr->term += 1;
+			philo->data_ptr->term = 1;
 			pthread_mutex_unlock(&philo->data_ptr->check_term);
 		}
 		else
 			pthread_mutex_unlock(&philo->data_ptr->enough_meals);
 	}
 	philo->last_food = now;
-	if (now == -1 || \
-	safe_usleep(philo, now + philo->data_ptr->time_to_eat) == DEAD)
+	if (safe_usleep(philo, now + philo->data_ptr->time_to_eat) == DEAD)
 		return (DEAD);
 	put_down_fork(philo, 0);
 	put_down_fork(philo, 1);
@@ -76,8 +77,8 @@ bool	term(t_philo *philo)
 	philo->data_ptr->term += 1;
 	pthread_mutex_unlock(&philo->data_ptr->check_term);
 	pthread_mutex_lock(&philo->data_ptr->print);
-	printf("%li philosopher %d has died.\n", \
-	ft_gettimestamp(philo->data_ptr->start), philo->number + 1);
+	printf("%i philosopher %i has died.\n", \
+	(int)ft_gettimestamp(philo->data_ptr->start), philo->number + 1);
 	pthread_mutex_unlock(&philo->data_ptr->print);
 	return (1);
 }
