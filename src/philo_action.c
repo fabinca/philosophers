@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 16:03:10 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 17:20:58 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	print_message(t_philo *philo, char *message)
 {
-	printf("%li philosopher %i %s.\n", ft_gettimestamp(philo->data_ptr->start), \
-	philo->number + 1, message);
+	printf("%*li philosopher %i %s.\n", 6, \
+	ft_gettimestamp(philo->data_ptr->start), philo->number + 1, message);
 }
 
 void	think(t_philo *philo, int64_t time)
@@ -45,25 +45,20 @@ void	eat(t_philo *philo)
 		else
 			pthread_mutex_unlock(&philo->data_ptr->enough_meals);
 	}
-	safe_usleep(philo, philo->data_ptr->time_to_eat * 1000 - \
-	(ft_gettimestamp(philo->data_ptr->start) - now));
 	philo->last_food = now;
+	safe_usleep(philo, philo->data_ptr->time_to_eat * 1000);
 	put_down_fork(philo, 0);
 	put_down_fork(philo, 1);
 }
 
 void	philo_sleep(t_philo *philo)
 {
-	int64_t	now;
+	//int64_t	now;
 
 	print_message(philo, "is sleeping");
-	now = ft_gettimestamp(philo->data_ptr->start);
-	if (now - philo->last_food + philo->data_ptr->time_to_sleep * 1000 < \
-	philo->data_ptr->time_to_die * 1000)
-		safe_usleep(philo, philo->data_ptr->time_to_sleep * 1000);
-	else
-		safe_usleep(philo, (philo->data_ptr->time_to_die * 1000 - \
-		(now - philo->last_food)));
+
+	safe_usleep(philo, philo->data_ptr->time_to_sleep * 1000);
+
 }
 
 bool	term(t_philo *philo)

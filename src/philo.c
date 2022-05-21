@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 16:06:37 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 17:11:57 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 static bool	get_forks(t_philo *philo)
 {
+	if (ft_gettimestamp(philo->data_ptr->start) - philo->last_food >= philo->data_ptr->time_to_eat)
+	{
+		while (!philo->hand_fork[0] || !philo->hand_fork[1])
+		{
+			take_left_fork(philo);
+			take_right_fork(philo);
+			if (term(philo))
+				return (0);
+		}
+	}
 	if (philo->number % 2 != 0)
 	{
 		if (take_left_fork(philo))
