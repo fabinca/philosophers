@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 14:28:22 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 16:08:23 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 23:55:00 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,25 @@
 
 #define TIME_STEPS 100
 
-bool	safe_usleep(t_philo *philo, int64_t time)
+bool	safe_usleep(t_philo *philo, int64_t end)
 {
-	while (time > TIME_STEPS * 1000)
+	bool	status;
+
+	if (end > philo->last_food + philo->data_ptr->time_to_die)
+	{
+		//printf("e;%li l:%li\n", end, philo->last_food + philo->data_ptr->time_to_die);
+		end = philo->last_food + philo->data_ptr->time_to_die;
+		status = DEAD;
+	}
+	else
+		status = ALIVE;
+	while (end < ft_gettimestamp(philo->data_ptr->start) - TIME_STEPS)
 	{
 		usleep(TIME_STEPS * 1000);
-		time = time - TIME_STEPS * 1000;
 		if (term(philo))
-			return (1);
+			return (DEAD);
 	}
-	usleep(time);
-	return (0);
+	usleep((end - ft_gettimestamp(philo->data_ptr->start))* 1000);
+	//printf("e;%li t:%li\n", end, ft_gettimestamp(philo->data_ptr->start));
+	return (status);
 }

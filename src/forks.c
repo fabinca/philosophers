@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:16:03 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 16:28:29 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 23:55:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,15 @@ bool	take_left_fork(t_philo *philo)
 {
 	if (philo->hand_fork[0] == 1)
 		return (1);
-	if (term(philo))
-		return (0);
 	pthread_mutex_lock(&philo->data_ptr->f_mutex[philo->left]);
 	if (philo->data_ptr->fork_state[philo->left] == 1)
 	{
 		philo->data_ptr->fork_state[philo->left] = 0;
 		pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->left]);
 		philo->hand_fork[0] = 1;
-		if (term(philo))
-			return (0);
-		print_message(philo, "has taken left fork");
-		return (1);
+		if (safe_print(philo, "has taken left fork") >= 0)
+			return (1);
+		return (0);
 	}
 	pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->left]);
 	return (0);
@@ -37,18 +34,15 @@ bool	take_right_fork(t_philo *philo)
 {
 	if (philo->hand_fork[1] == 1)
 		return (1);
-	if (term(philo))
-		return (0);
 	pthread_mutex_lock(&philo->data_ptr->f_mutex[philo->number]);
 	if (philo->data_ptr->fork_state[philo->number] == 1)
 	{
 		philo->data_ptr->fork_state[philo->number] = 0;
 		pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->number]);
 		philo->hand_fork[1] = 1;
-		if (term(philo))
-			return (0);
-		print_message(philo, "has taken right fork");
-		return (1);
+		if (safe_print(philo, "has taken right fork") > 1)
+			return (1);
+		return (0);
 	}
 	pthread_mutex_unlock(&philo->data_ptr->f_mutex[philo->number]);
 	return (0);
@@ -65,6 +59,7 @@ void	put_down_fork(t_philo *philo, bool side)
 	pthread_mutex_lock(&philo->data_ptr->f_mutex[fork]);
 	philo->data_ptr->fork_state[fork] = 1;
 	pthread_mutex_unlock(&philo->data_ptr->f_mutex[fork]);
+	//safe_print(philo, "has put down fork");
 	philo->hand_fork[side] = 0;
 }
 
@@ -90,7 +85,7 @@ void	put_down_needed_forks(t_philo *philo)
 	if (philo->hand_fork[1] == 1 && check_fork(philo, neighbour) == 1)
 	{
 		put_down_fork(philo, 1);
-		print_message(philo, "has put down right fork");
+		safe_print(philo, "has put down right fork");
 		usleep(200);
 		return ;
 	}
@@ -98,7 +93,7 @@ void	put_down_needed_forks(t_philo *philo)
 	if (philo->hand_fork[0] == 1 && check_fork(philo, neighbour) == 1)
 	{
 		put_down_fork(philo, 0);
-		print_message(philo, "has put down left fork");
+		safe_print(philo, "has put down left fork");
 		usleep(300);
 	}
 }

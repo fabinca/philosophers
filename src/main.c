@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 12:52:37 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 22:49:03 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_data	init_data(int argc, char **argv)
 	d.fork_state = (bool *)malloc(d.nb_p * sizeof(bool));
 	memset(d.fork_state, 1, d.nb_p * sizeof(bool));
 	pthread_mutex_init(&d.check_term, NULL);
+	pthread_mutex_init(&d.print, NULL);
 	pthread_mutex_init(&d.enough_meals, NULL);
 	d.f_mutex = (pthread_mutex_t *)malloc(d.nb_p * sizeof(pthread_mutex_t));
 	return (d);

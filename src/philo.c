@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 17:11:57 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 23:36:18 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool	get_forks(t_philo *philo)
 				return (0);
 		}
 	}
-	if (philo->number % 2 != 0)
+	if (philo->number != 0)
 	{
 		if (take_left_fork(philo))
 			take_right_fork(philo);
@@ -45,7 +45,7 @@ void	*philo_thread(void *ptr)
 
 	philo = (t_philo *)ptr;
 	philo->last_food = philo->data_ptr->start;
-	/*if (philo->data_ptr->nb_p % 2 == 0)
+	if (philo->data_ptr->nb_p % 2 == 0)
 	{
 		if (philo->number % 2 == 1)
 			usleep(philo->data_ptr->time_to_eat * 1000 / 2);
@@ -53,18 +53,20 @@ void	*philo_thread(void *ptr)
 	else if (philo->number % 3 == 1)
 		usleep(philo->data_ptr->time_to_eat * 1000 / 4);
 	else if (philo->number % 3 == 2)
-		usleep(philo->data_ptr->time_to_eat * 1000 / 2);*/
-	while (!term(philo))
+		usleep(philo->data_ptr->time_to_eat * 1000 / 2);
+	while (true)
 	{
 		if (get_forks(philo))
 		{
-			if (!term(philo))
-				eat(philo);
-			if (!term(philo))
-				philo_sleep(philo);
-			if (!term(philo))
-				think(philo, 0);
+			if (!eat(philo))
+				break ;
+			if (!philo_sleep(philo))
+				break ;
+			if (!think(philo))
+				break ;
 		}
+		else if (term(philo))
+			break ;
 	}
 	return (NULL);
 }
