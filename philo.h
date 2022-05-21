@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:51:37 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 13:13:43 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 15:50:18 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_philo
 
 //free
 void	free_all(pthread_t *tid, t_data data, t_philo *philos);
-
+bool	safe_usleep(t_philo *philo, int64_t time);
 //utils
 int		ft_atoi(const char *str);
 bool	ft_str_is_numeric(char *str);

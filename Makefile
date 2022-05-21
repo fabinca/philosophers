@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 14:57:03 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/19 12:35:06 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/21 15:57:05 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC	= 	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/philo.c \
 		$(SRC_DIR)/philo_action.c \
 		$(SRC_DIR)/ft_atoi.c \
+		$(SRC_DIR)/sleep.c \
 		$(SRC_DIR)/ft_str_is_numeric.c
 		
 OBJ_DIR = obj
