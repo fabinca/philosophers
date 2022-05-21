@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:55:29 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 22:49:03 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/22 00:28:34 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@ t_data	init_data(int argc, char **argv)
 {
 	t_data	d;
 
-	d.nb_p = ft_atoi(argv[1]);
-	d.time_to_die = ft_atoi(argv[2]);
-	d.time_to_eat = ft_atoi(argv[3]);
-	d.time_to_sleep = ft_atoi(argv[4]);
+	d.err = 0;
+	d.nb_p = ft_atoi_philo(argv[1], &d.err, MAX_PHILO, MAX_VAL);
+	d.time_to_die = ft_atoi_philo(argv[2], &d.err, MIN_TIME, MIN_VAL);
+	d.time_to_eat = ft_atoi_philo(argv[3], &d.err, MIN_TIME, MIN_VAL);
+	d.time_to_sleep = ft_atoi_philo(argv[4], &d.err, MIN_TIME, MIN_VAL);
 	if (argc == 5)
 		d.nb_meals = -10;
 	else
-		d.nb_meals = ft_atoi(argv[5]);
+		d.nb_meals = ft_atoi_philo(argv[5], &d.err, MIN_MEALS, MIN_VAL);
 	d.term = 0;
 	d.philos_finished_nbm = 0;
 	d.fork_state = (bool *)malloc(d.nb_p * sizeof(bool));
@@ -96,13 +97,13 @@ int	main(int argc, char **argv)
 	philos = init_philos(&data);
 	data.start = ft_gettimestamp(0);
 	i = 0;
-	while (i < data.nb_p)
+	while (!data.err && i < data.nb_p)
 	{
 		pthread_create(&tid[i], NULL, &philo_thread, &philos[i]);
 		i++;
 	}
 	i = 0;
-	while (i < data.nb_p)
+	while (!data.err && i < data.nb_p)
 	{
 		pthread_join(tid[i], NULL);
 		i++;

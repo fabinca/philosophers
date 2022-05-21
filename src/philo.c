@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:10:27 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 23:36:18 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/22 00:41:03 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static bool	get_forks(t_philo *philo)
 {
-	if (ft_gettimestamp(philo->data_ptr->start) - philo->last_food >= philo->data_ptr->time_to_eat)
+	if (ft_gettimestamp(philo->data_ptr->start) - philo->last_food \
+	>= philo->data_ptr->time_to_eat)
 	{
 		while (!philo->hand_fork[0] || !philo->hand_fork[1])
 		{
@@ -24,7 +25,7 @@ static bool	get_forks(t_philo *philo)
 				return (0);
 		}
 	}
-	if (philo->number != 0)
+	if (philo->number % 2 != 0)
 	{
 		if (take_left_fork(philo))
 			take_right_fork(philo);
@@ -39,12 +40,10 @@ static bool	get_forks(t_philo *philo)
 	return (false);
 }
 
-void	*philo_thread(void *ptr)
+static void	philo_start(t_philo *philo)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)ptr;
-	philo->last_food = philo->data_ptr->start;
+	if (philo->data_ptr->time_to_eat >= philo->data_ptr->time_to_die)
+		return ;
 	if (philo->data_ptr->nb_p % 2 == 0)
 	{
 		if (philo->number % 2 == 1)
@@ -54,6 +53,15 @@ void	*philo_thread(void *ptr)
 		usleep(philo->data_ptr->time_to_eat * 1000 / 4);
 	else if (philo->number % 3 == 2)
 		usleep(philo->data_ptr->time_to_eat * 1000 / 2);
+}
+
+void	*philo_thread(void *ptr)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)ptr;
+	philo->last_food = philo->data_ptr->start;
+	philo_start(philo);
 	while (true)
 	{
 		if (get_forks(philo))

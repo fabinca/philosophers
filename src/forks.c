@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:16:03 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 23:55:40 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/22 00:47:21 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	put_down_fork(t_philo *philo, bool side)
 	pthread_mutex_lock(&philo->data_ptr->f_mutex[fork]);
 	philo->data_ptr->fork_state[fork] = 1;
 	pthread_mutex_unlock(&philo->data_ptr->f_mutex[fork]);
-	//safe_print(philo, "has put down fork");
 	philo->hand_fork[side] = 0;
 }
 
@@ -75,25 +74,4 @@ bool	check_fork(t_philo *philo, int fork)
 	fork_state = philo->data_ptr->fork_state[fork];
 	pthread_mutex_unlock(&philo->data_ptr->f_mutex[fork]);
 	return (fork_state);
-}
-
-void	put_down_needed_forks(t_philo *philo)
-{
-	int	neighbour;
-
-	neighbour = philo->number + 1;
-	if (philo->hand_fork[1] == 1 && check_fork(philo, neighbour) == 1)
-	{
-		put_down_fork(philo, 1);
-		safe_print(philo, "has put down right fork");
-		usleep(200);
-		return ;
-	}
-	neighbour = philo->number - 1;
-	if (philo->hand_fork[0] == 1 && check_fork(philo, neighbour) == 1)
-	{
-		put_down_fork(philo, 0);
-		safe_print(philo, "has put down left fork");
-		usleep(300);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 16:33:30 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 23:57:03 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/21 23:59:15 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ bool	think(t_philo *philo)
 	if (safe_print(philo, "is thinking") > 1)
 		return (ALIVE);
 	return (DEAD);
-
 }
 
 bool	eat(t_philo *philo)

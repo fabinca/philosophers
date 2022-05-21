@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 22:35:48 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/21 23:41:36 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/22 00:49:45 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ int64_t	safe_print(t_philo *philo, char *message)
 	write(1, " philosopher ", 14);
 	ft_putnbr(philo->number + 1);
 	ft_putendl(message);
-	/*printf("%*li philosopher %i %s.\n", 6, 
-	//ft_gettimestamp(philo->data_ptr->start), philo->number + 1, message); */
 	pthread_mutex_unlock(&philo->data_ptr->print);
 	return (timestamp);
 }
